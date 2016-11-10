@@ -16,6 +16,7 @@ public class PortfolioController extends AbstractController {
     public String portfolio(HttpServletRequest request, Model model){
 
         // TODO - Implement portfolio display
+    	
 
         model.addAttribute("title", "Portfolio");
         model.addAttribute("portfolioNavClass", "active");
