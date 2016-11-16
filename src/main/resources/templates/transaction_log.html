@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="template :: head">
+</head>
+<body>
+<div class="container">
+
+    <div id="top" th:include="template :: masthead"></div>
+
+    <div id="middle">
+
+        <!-- TODO - Display transaction log -->
+        <h1><span th:text="${username}">Name</span>'s Transaction Log</h1>
+        
+		<table>
+			<tr>
+				<th>Date/Time</th>
+				<th>Action</th>
+				<th>Stock Name</th>
+				<th>No. Shares</th>
+				<th>Price</th>
+				<th>Transaction Total</th>
+			</tr>
+			<tr th:each="transaction : ${transactions}">
+				<td th:text="${ #dates.format(transaction.transactionTime, 'yyyy-MM-dd hh:mm:ss') }">Date/Time</td>
+				<td th:text="${transaction.type}">Action</td>
+				<td th:text="${transaction.symbol}">Stock Name</td>
+				<td th:text="${transaction.shares}">Num Shares</td>
+				<td th:text="'$' + ${transaction.price}">Price</td>
+				<td th:text="'$' + ${#numbers.formatDecimal((transaction.price * transaction.shares), 0, 'COMMA', 2, 'POINT')}">Transaction Total</td>
+			</tr>
+		</table>
+			
+    </div>
+
+    <div th:replace="template :: footer"></div>
+</div>
+</body>
+</html>

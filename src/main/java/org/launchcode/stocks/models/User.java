@@ -26,6 +26,7 @@ public class User extends AbstractEntity {
 
     private String userName;
     private String hash;
+    private float cash;
 
     /**
      * A collection of all the StockHoldings this user owns. The keys are stock symbols, ie "YHOO"
@@ -38,6 +39,7 @@ public class User extends AbstractEntity {
         this.hash = PasswordHash.getHash(password);
         this.userName = userName;
         this.portfolio = new HashMap<String, StockHolding>();
+        this.cash = 5000.00f;		//set initial balance
     }
 
     // empty constructor so Hibernate can do its magic
@@ -61,6 +63,16 @@ public class User extends AbstractEntity {
 
     protected void setHash(String hash) {
         this.hash = hash;
+    }
+    
+    @NotNull
+    @Column(name = "cash")
+    public float getCash() {
+        return cash;
+    }
+
+    protected void setCash(float cash) {
+        this.cash = cash;
     }
 
     @OneToMany(cascade = CascadeType.ALL)

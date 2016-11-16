@@ -22,7 +22,7 @@ public class Stock {
     private final float price;
     private final String name;
 
-    private Stock(String symbol, String name, float price) {
+    public Stock(String symbol, String name, float price) {
         this.symbol = symbol;
         this.price = price;
         this.name = name;
@@ -46,7 +46,7 @@ public class Stock {
     }
 
 
-    private static final String urlBase = "http://download.finance.yahoo.com/d/quotes.csv?f=snl1&s=";
+    private static final String urlBase = "http://download.finance.yaho.com/d/quotes.csv?f=snl1&s=";
 
     /**
      * Factory to create new Stock instances with current price information.

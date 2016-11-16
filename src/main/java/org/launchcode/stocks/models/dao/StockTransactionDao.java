@@ -16,5 +16,9 @@ import java.util.List;
 public interface StockTransactionDao extends CrudRepository<StockTransaction, Integer> {
 
     List<StockTransaction> findBySymbolAndUid(String symbol, int uid);
+    
+    List<StockTransaction> findByUserId(int userId);
+    
+    List<StockTransaction> findAll();
 
 }

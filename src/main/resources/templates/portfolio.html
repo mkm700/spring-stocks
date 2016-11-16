@@ -9,9 +9,30 @@
     <div id="top" th:include="template :: masthead"></div>
 
     <div id="middle">
+    
+    
 
         <!-- TODO - Display portfolio -->
-        <p>Portfolio!</p>
+        <h1><span th:text="${username}">Name</span>'s Portfolio</h1>
+        <p>Cash remaining: $<span th:text="${cash}">cash</span></p>
+        <!-- display name (use Stock.toString()), number of shares owned, current price, 
+		and total value of shares owned. Format the currency values appropriately, with 2 decimal places.  -->
+
+		<table>
+			<tr>
+				<th>Stock Name</th>
+				<th>No. Shares</th>
+				<th>Current Price</th>
+				<th>Total Value</th>
+			</tr>
+			<tr th:each="holding : ${portfolioData}">
+				<td th:text="${holding.stockName}">Name</td>
+				<td th:text="${holding.shares}">Shares</td>
+				<td th:text="${holding.price}">Price</td>
+				<td th:text="${holding.value}">Value</td>								
+			</tr>
+		</table>
+			
 
     </div>
 

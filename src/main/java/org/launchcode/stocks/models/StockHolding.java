@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.launchcode.stocks.models.dao.StockHoldingDao;
+import org.launchcode.stocks.models.dao.StockTransactionDao;
+
 /**
  * Created by cbay on 5/10/15.
  */
@@ -30,8 +33,6 @@ public class StockHolding extends AbstractEntity {
      * The history of past transactions in which this user bought or sold shares from this stock holding
      */
     private List<StockTransaction> transactions;
-
-
 
     private StockHolding() {}
 
@@ -99,6 +100,7 @@ public class StockHolding extends AbstractEntity {
 
         StockTransaction transaction = new StockTransaction(this, numberOfShares, StockTransaction.TransactionType.BUY);
         this.transactions.add(transaction);
+        
     }
 
     /**
@@ -111,13 +113,14 @@ public class StockHolding extends AbstractEntity {
     private void sellShares(int numberOfShares) throws StockLookupException {
 
         if (numberOfShares > sharesOwned) {
-            throw new IllegalArgumentException("Number to sell exceeds shares owned for stock" + symbol);
+            throw new IllegalArgumentException("Number to sell exceeds shares owned for stock " + symbol);
         }
 
         setSharesOwned(sharesOwned - numberOfShares);
 
         StockTransaction transaction = new StockTransaction(this, numberOfShares, StockTransaction.TransactionType.SELL);
         this.transactions.add(transaction);
+        
     }
 
     /**
@@ -133,6 +136,14 @@ public class StockHolding extends AbstractEntity {
     public static StockHolding buyShares(User user, String symbol, int numberOfShares) throws StockLookupException {
 
         // TODO - make sure symbol matches case convention
+    	symbol = symbol.toUpperCase();
+    	
+    	//check for enough cash to buy
+    	Stock stock = Stock.lookupStock(symbol);
+    	float transTotal = numberOfShares * stock.getPrice(); 
+    	if (user.getCash() < transTotal) {
+    		throw new IllegalArgumentException("Not enough cash to buy this much stock");
+    	}
 
         // Get existing holding
         Map<String, StockHolding> userPortfolio = user.getPortfolio();
@@ -149,6 +160,7 @@ public class StockHolding extends AbstractEntity {
         holding.buyShares(numberOfShares);
         
        // TODO - update user cash on buy
+       user.setCash(user.getCash() - transTotal);
 
         return holding;
     }
@@ -165,6 +177,7 @@ public class StockHolding extends AbstractEntity {
     public static StockHolding sellShares(User user, String symbol, int numberOfShares) throws StockLookupException {
 
         // TODO - make sure symbol matches case convention
+    	symbol = symbol.toUpperCase();
 
         // Get existing holding
         Map<String, StockHolding> userPortfolio = user.getPortfolio();
@@ -179,6 +192,10 @@ public class StockHolding extends AbstractEntity {
         holding.sellShares(numberOfShares);
 
         // TODO - update user cash on sale
+        Stock stock = Stock.lookupStock(symbol);
+        float transTotal = stock.getPrice() * numberOfShares;
+        user.setCash(user.getCash() + transTotal);
+        
 
         return holding;
     }

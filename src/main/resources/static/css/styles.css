@@ -24,6 +24,16 @@
     width: auto;
 }
 
+table {
+	margin: 0 auto;
+	padding: 10px;
+}
+
+td, th {
+	padding:5px;
+	border: 1px solid #333;
+}
+
 #bottom
 {
     /* shrink bottom's font size */
@@ -32,3 +42,4 @@
     /* surround with whitespace */
     margin: 20px;
 }
+

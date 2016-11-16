@@ -37,6 +37,9 @@ public class StockTransaction extends AbstractEntity {
     private String symbol;
     private int userId;
     private StockHolding stockHolding;
+    
+    //default constructor for hibernate
+    private StockTransaction() {}
 
     public StockTransaction(StockHolding stockHolding, int shares, TransactionType type) throws StockLookupException {
         this.shares = shares;
@@ -79,12 +82,12 @@ public class StockTransaction extends AbstractEntity {
 
     @NotNull
     @Column(name = "transaction_time")
-    public Date getTransationTime() {
+    public Date getTransactionTime() {
         return transactionTime;
     }
 
-    protected void setTransationTime(Date transationTime) {
-        this.transactionTime = transationTime;
+    protected void setTransactionTime(Date transactionTime) {
+        this.transactionTime = transactionTime;
     }
 
     @NotNull
